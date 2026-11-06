@@ -1,5 +1,5 @@
 // English content for the Xartisan Studio build.
-// Keyed by the i18n paths used by the cloned site (see build-src/en.json for the original).
+// Keyed by the i18n paths in the base bundle (see build-src/en.json).
 
 export const brand = {
   name: "Xartisan Studio",
@@ -50,3 +50,22 @@ export const htmlOnly = {
   introTagline: "Digital Solutions · Web Studio",
   introWord: "XARTISAN",
 };
+
+// Project grid. Each entry becomes a tile in site/index.html and, via
+// tools/capture-projects.mjs, a set of hover previews in
+// build-src/generated/projects/<slug>/previews/.
+export const projects = [
+  {
+    slug: "volta",
+    name: "volta",
+    meta: "Ecommerce · 3D configurator · Live demo ↗",
+    href: "https://tricuongdao.github.io/volta-ecommerce-demo/",
+    pages: [
+      { path: "", scroll: 0 },
+      { path: "shop.html", scroll: 0 },
+      { path: "product.html", scroll: 0 },
+      { path: "", scroll: 2950 },
+    ],
+    settle: 12000,
+  },
+];

@@ -571,3 +571,9 @@ html[data-home-loader-state="restoring"] .sound-toggle {
     transform: scaleY(0.7);
   }
 }
+
+/* ---------- Projects: single project ---------- */
+.projects--single .projects__pin-height{height:170vh}
+.projects--single .projects__list{top:34svh;gap:10px}
+.projects--single .projects__link{opacity:1!important;font-size:min(clamp(80px,13vw,190px),16svh)}
+.projects--single .projects__meta{margin:0;font-family:Satoshi-Variable,Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;text-align:center}

@@ -6,7 +6,7 @@
 // Run: node tools/build.mjs
 import fs from "node:fs";
 import path from "node:path";
-import { brand, overrides } from "./content.mjs";
+import { brand, overrides, projects } from "./content.mjs";
 
 const report = [];
 const warn = [];
@@ -120,6 +120,24 @@ for (const [find, repl] of [
   homeBundle = homeBundle.split(find).join(repl);
   note(`home bundle: "${find}" ×${count}`);
 }
+// project grid: hover previews live in the home bundle, keyed by slug
+const previewsFor = (p) => {
+  const out = [];
+  let i = 0;
+  for (const kind of ["square", "portrait"]) {
+    for (const _page of p.pages) {
+      out.push(`/projects/${p.slug}/previews/${p.slug}-${String(++i).padStart(2, "0")}-${kind}.webp`);
+    }
+  }
+  return out;
+};
+const previewMap = Object.fromEntries(projects.map((p) => [p.slug, previewsFor(p)]));
+const mapRe = /var en=\{"ppf-dong-nai":[\s\S]*?\},tn=!1;/;
+if (!mapRe.test(homeBundle)) warn.push("home bundle: project preview map not found");
+else {
+  homeBundle = homeBundle.replace(mapRe, `var en=${JSON.stringify(previewMap)},tn=!1;`);
+  note(`home bundle: project previews → ${projects.map((p) => p.slug).join(", ")}`);
+}
 fs.writeFileSync(homeFile, homeBundle);
 
 // stylesheet + sound runtime
@@ -189,7 +207,28 @@ html = html.replace(
 if (missing.size) warn.push(`i18n keys with no value: ${[...missing].join(", ")}`);
 
 // 3c. structural + metadata edits
+const projectTiles = projects
+  .map(
+    (p) => `              <a
+                class="projects__link"
+                href="${esc(p.href)}"
+                target="_blank"
+                rel="noreferrer"
+                data-project="${esc(p.slug)}"
+              >
+                ${esc(p.name)}
+              </a>`,
+  )
+  .join("\n\n");
+const projectMeta =
+  projects.length === 1 && projects[0].meta
+    ? `\n\n              <p class="projects__meta">${esc(projects[0].meta)}</p>`
+    : "";
+
 const structural = [
+  // project grid (tools/content.mjs)
+  [/(<nav class="projects__list"[^>]*>)[\s\S]*?(<\/nav>)/, `$1\n${projectTiles}${projectMeta}\n            $2`],
+
   // English-only bootstrap
   [
     /<!-------- LANGUAGE --------->[\s\S]*?<\/script>/,
@@ -264,6 +303,24 @@ const structural = [
     '<a class="text-link" href="https://xartisan.studio" target="_blank" rel="noreferrer">xartisan.studio</a>',
   ],
 ];
+
+// single-project layout: one tile stays fully visible under the title
+if (projects.length === 1) {
+  const before = html;
+  html = html.replace(
+    '<section class="projects" id="projects">',
+    '<section class="projects projects--single" id="projects">',
+  );
+  if (html === before) warn.push("html: projects section class not found");
+  fs.appendFileSync(
+    path.join("site", "assets", "xartisan.css"),
+    "\n/* ---------- Projects: single project ---------- */\n" +
+      ".projects--single .projects__pin-height{height:170vh}\n" +
+      ".projects--single .projects__list{top:34svh;gap:10px}\n" +
+      ".projects--single .projects__link{opacity:1!important;font-size:min(clamp(80px,13vw,190px),16svh)}\n" +
+      ".projects--single .projects__meta{margin:0;font-family:Satoshi-Variable,Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;text-align:center}\n",
+  );
+}
 
 for (const [find, repl] of structural) {
   const before = html;
