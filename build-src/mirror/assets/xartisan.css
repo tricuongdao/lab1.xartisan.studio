@@ -1,0 +1,573 @@
+/* Chỉnh sửa riêng cho bản XimiTech, nạp sau CSS gốc. */
+
+/* Hàm tách chữ bọc mỗi từ trong <x-w>: không cho ngắt dòng giữa một từ. */
+x-w {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Câu cuối phần Hành trình: hiệu ứng rê chuột tô lại chữ vốn nhắm vào
+   span con trực tiếp, nay chữ nằm trong <x-w> nên khai báo thêm. */
+@media (hover: hover) and (pointer: fine) {
+  .trajectory-sentences__sentence.is-both.is-pointer-play x-w > span {
+    pointer-events: auto;
+    transition: color 0.25s;
+  }
+
+  .trajectory-sentences__sentence.is-both.is-pointer-play:hover x-w > span {
+    color: var(--color-cream) !important;
+  }
+}
+
+.site-header__link,
+.site-header__language-switch {
+  white-space: nowrap;
+}
+
+/* ---------- Footer: thêm pháp nhân, founder, liên hệ ---------- */
+.next-footer__meta p {
+  margin: 0;
+}
+
+.next-footer__group a {
+  white-space: nowrap;
+  font-size: clamp(15px, 1vw, 19px);
+}
+
+.next-footer__group-title {
+  white-space: nowrap;
+}
+
+/* Laptop màn thấp và tablet ngang: footer chỉ cao nửa màn hình nên thu
+   padding và cỡ chữ để ba dòng tiêu đề cùng hai nhóm liên hệ vừa khung. */
+@media (width <= 1440px) and (height > 500px) and (orientation: landscape) {
+  .next-footer__content {
+    padding: clamp(28px, 4.5vw, 64px);
+  }
+
+  .next-footer__inner {
+    gap: clamp(32px, 5vw, 72px);
+  }
+
+  .next-footer__main {
+    gap: clamp(16px, 3vh, 36px);
+  }
+
+  .next-footer__headline {
+    font-size: clamp(26px, 2.9vw, 42px);
+  }
+
+  .next-footer__meta {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    font-size: clamp(14px, 1vw, 17px);
+  }
+}
+
+/* Điện thoại dọc: hai nhóm xếp chồng, các mục chạy ngang và tự xuống dòng
+   để email dài không đẩy tràn khung. */
+@media (width <= 600px) and (orientation: portrait) {
+  .next-footer__nav {
+    flex-direction: column;
+    gap: clamp(12px, 2svh, 18px);
+  }
+
+  .next-footer__group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 14px;
+    row-gap: 6px;
+    width: 100%;
+  }
+
+  .next-footer__group-title {
+    flex-basis: 100%;
+    font-size: 20px;
+  }
+
+  .next-footer__group a {
+    font-size: 15px;
+  }
+
+  .next-footer__headline {
+    font-size: clamp(24px, 7vw, 30px);
+  }
+
+  .next-footer__meta {
+    font-size: 13px;
+    row-gap: 4px;
+  }
+}
+
+/* ---------- Dự án: 12 sản phẩm đang chạy ---------- */
+/* Tên có dấu (Đồng Nai, Học nghề…) nên dùng Be Vietnam Pro ở cả hai ngôn ngữ. */
+.projects__link {
+  font-family: "Be Vietnam Pro", Arial, sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  white-space: nowrap;
+  font-size: min(clamp(26px, 7.2vw, 44px), 4.3svh);
+}
+
+.projects__list {
+  gap: clamp(6px, 1.3svh, 14px);
+}
+
+/* Màn rộng: hai cột sáu dòng để mười hai tên vẫn nằm gọn một màn hình. */
+@media (width > 820px) {
+  .projects__list {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: center;
+    justify-items: center;
+    column-gap: clamp(40px, 7vw, 120px);
+    row-gap: clamp(8px, 2.2svh, 22px);
+  }
+
+  .projects__link {
+    font-size: min(clamp(34px, 4.6vw, 64px), 6.4svh);
+  }
+}
+
+/* Dòng cam kết dưới tiêu đề footer */
+.next-footer__proof {
+  margin: 0;
+  font-size: clamp(14px, 1.05vw, 19px);
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.next-footer__main {
+  row-gap: clamp(12px, 2.2vh, 28px);
+}
+
+@media (width <= 600px) and (orientation: portrait) {
+  .next-footer__proof {
+    font-size: 13px;
+  }
+}
+
+/* ---------- Intro XimiTech ---------- */
+.ximi-intro {
+  --intro-ease: cubic-bezier(0.76, 0, 0.24, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--color-dark);
+  color: var(--color-cream);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.9s var(--intro-ease);
+}
+
+.ximi-intro[hidden] {
+  display: none;
+}
+
+.ximi-intro.is-leaving {
+  clip-path: inset(0 0 100% 0);
+}
+
+.ximi-intro__glow {
+  position: absolute;
+  width: min(90vw, 900px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-cream) 10%, transparent) 0%, transparent 65%);
+  animation: ximiGlow 2.6s ease-out both;
+}
+
+.ximi-intro__center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 2.4vh, 24px);
+  transition: transform 0.9s var(--intro-ease), opacity 0.6s;
+}
+
+.ximi-intro.is-leaving .ximi-intro__center {
+  transform: translateY(-18vh) scale(0.94);
+  opacity: 0;
+}
+
+.ximi-intro__logo {
+  width: clamp(88px, 11vw, 150px);
+  overflow: visible;
+}
+
+.ximi-intro__logo-stroke {
+  stroke: var(--color-cream);
+  stroke-width: 0.45;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ximiDraw 1.3s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
+}
+
+.ximi-intro__logo-fill {
+  fill: var(--color-cream);
+  opacity: 0;
+  animation: ximiFade 0.6s ease-out 1.15s forwards;
+}
+
+.ximi-intro__word {
+  display: flex;
+  margin: 0;
+  overflow: hidden;
+  font-family: CabinetGrotesk-Variable, Arial, sans-serif;
+  font-size: clamp(34px, 5.4vw, 80px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+
+.ximi-intro__letter {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: ximiRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.95s + var(--i) * 0.055s);
+}
+
+.ximi-intro__tagline {
+  margin: 0;
+  font-family: Satoshi-Variable, Arial, sans-serif;
+  font-size: clamp(13px, 1.1vw, 17px);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: ximiFade 0.7s ease-out 1.55s forwards;
+}
+
+.ximi-intro__meta {
+  position: absolute;
+  left: clamp(18px, 3vw, 48px);
+  right: clamp(18px, 3vw, 48px);
+  bottom: clamp(18px, 4vh, 40px);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: Satoshi-Variable, Arial, sans-serif;
+  font-size: clamp(12px, 0.95vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.ximi-intro__count {
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+}
+
+.ximi-intro__line {
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-cream) 18%, transparent);
+  overflow: hidden;
+}
+
+.ximi-intro__line span {
+  display: block;
+  height: 100%;
+  background: var(--color-cream);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: ximiLine 2.3s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes ximiDraw { to { stroke-dashoffset: 0; } }
+@keyframes ximiFade { to { opacity: 1; } }
+@keyframes ximiRise { to { transform: translateY(0); } }
+@keyframes ximiLine { to { transform: scaleX(1); } }
+@keyframes ximiGlow { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* ---------- Hero: nhãn "Trang demo năng lực" + nút về ximitech.vn ---------- */
+.lab-badge {
+  --lab-glass: color-mix(in srgb, #fff 18%, transparent);
+  position: absolute;
+  right: clamp(28px, 3vw, 48px);
+  bottom: clamp(28px, 3vw, 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 340px;
+  padding: 18px 18px 16px;
+  border: 1px solid color-mix(in srgb, #fff 22%, transparent);
+  border-radius: 22px;
+  background-color: var(--lab-glass);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  color: var(--color-cream);
+  font-family: Satoshi-Variable, Arial, Helvetica, sans-serif;
+  pointer-events: auto;
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.9s,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.9s;
+}
+
+/* Ẩn trong lúc intro/loader chạy, hiện lên sau khi logo 3D đã vào */
+html[data-home-loader-state="pending"] .lab-badge,
+html[data-home-loader-state="restoring"] .lab-badge {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.lab-badge p {
+  margin: 0;
+}
+
+.lab-badge__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.lab-badge__dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-cream);
+}
+
+.lab-badge__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: inherit;
+  animation: lab-badge-pulse 2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes lab-badge-pulse {
+  from { transform: scale(1); opacity: 0.7; }
+  to { transform: scale(2.8); opacity: 0; }
+}
+
+.lab-badge__skills {
+  font-family: CabinetGrotesk-Variable, Arial, Helvetica, sans-serif;
+  font-size: clamp(20px, 1.6vw, 26px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.lab-badge__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 11px 16px 11px 18px;
+  border-radius: 999px;
+  background-color: var(--color-cream);
+  color: var(--color-dark);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.lab-badge__arrow {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-badge__cta:hover {
+  background-color: var(--color-dark);
+  color: var(--color-cream);
+}
+
+.lab-badge__cta:hover .lab-badge__arrow {
+  transform: translate(3px, -3px);
+}
+
+.lab-badge__cta:focus-visible {
+  outline: 2px solid var(--color-cream);
+  outline-offset: 3px;
+}
+
+html[lang="vi"] .lab-badge,
+html[lang="vi"] .lab-badge__skills {
+  font-family: "Be Vietnam Pro", Arial, sans-serif;
+}
+
+/* Điện thoại: trải ngang, xếp một hàng gọn ở đáy khung hero */
+@media (width <= 768px) {
+  .lab-badge {
+    left: 24px;
+    right: 24px;
+    bottom: 28px;
+    max-width: none;
+    padding: 14px 14px 14px 16px;
+    border-radius: 20px;
+    gap: 8px;
+  }
+
+  .lab-badge__skills {
+    font-size: 19px;
+  }
+
+  .lab-badge__cta {
+    align-self: stretch;
+    justify-content: center;
+    padding-block: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-badge {
+    transition: none;
+  }
+
+  .lab-badge__dot::after {
+    animation: none;
+  }
+}
+
+/* ---------- Nút âm thanh (cố định góc dưới phải) ---------- */
+.sound-toggle {
+  --sound-edge: clamp(28px, 3vw, 48px);
+  --sound-size: 56px;
+  position: fixed;
+  right: var(--sound-edge);
+  bottom: var(--sound-edge);
+  z-index: 950;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: var(--sound-size);
+  height: var(--sound-size);
+  padding: 0 18px;
+  border: 1px solid color-mix(in srgb, var(--header-capsule-color, #fff) 10%, transparent);
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--header-capsule-color, #fff) 20%, transparent);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  color: var(--current-interface-color, var(--color-cream));
+  font: 600 14px/1 Satoshi-Variable, Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  transition:
+    color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s,
+    padding 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.2s;
+}
+
+html[lang="vi"] .sound-toggle {
+  font-family: "Be Vietnam Pro", Arial, sans-serif;
+}
+
+html[data-home-loader-state="pending"] .sound-toggle,
+html[data-home-loader-state="restoring"] .sound-toggle {
+  opacity: 0;
+}
+
+.sound-toggle:hover {
+  background-color: color-mix(in srgb, var(--header-capsule-color, #fff) 32%, transparent);
+}
+
+.sound-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.sound-toggle[data-state="on"],
+.sound-toggle[data-state="off"] {
+  padding: 0;
+}
+
+.sound-toggle__hint {
+  white-space: nowrap;
+}
+
+.sound-toggle:not([data-state="locked"]) .sound-toggle__hint {
+  display: none;
+}
+
+.sound-toggle__bars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 16px;
+}
+
+.sound-toggle__bars i {
+  width: 3px;
+  height: 100%;
+  border-radius: 2px;
+  background-color: currentColor;
+  transform: scaleY(0.25);
+  transition: transform 0.3s;
+}
+
+.sound-toggle[data-state="on"] .sound-toggle__bars i {
+  animation: sound-bar 0.9s ease-in-out infinite alternate;
+}
+
+.sound-toggle[data-state="on"] .sound-toggle__bars i:nth-child(2) { animation-delay: -0.3s; }
+.sound-toggle[data-state="on"] .sound-toggle__bars i:nth-child(3) { animation-delay: -0.6s; }
+.sound-toggle[data-state="on"] .sound-toggle__bars i:nth-child(4) { animation-delay: -0.15s; }
+
+/* Chưa bật: các cột nhấp nhẹ để gợi ý bấm */
+.sound-toggle[data-state="locked"] .sound-toggle__bars i {
+  animation: sound-bar-idle 1.6s ease-in-out infinite;
+}
+
+.sound-toggle[data-state="locked"] .sound-toggle__bars i:nth-child(2) { animation-delay: 0.15s; }
+.sound-toggle[data-state="locked"] .sound-toggle__bars i:nth-child(3) { animation-delay: 0.3s; }
+.sound-toggle[data-state="locked"] .sound-toggle__bars i:nth-child(4) { animation-delay: 0.45s; }
+
+.sound-toggle[data-state="off"] .sound-toggle__bars i {
+  transform: scaleY(0.2);
+  opacity: 0.6;
+}
+
+@keyframes sound-bar {
+  from { transform: scaleY(0.25); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes sound-bar-idle {
+  0%, 100% { transform: scaleY(0.25); }
+  30% { transform: scaleY(0.7); }
+}
+
+/* Nhãn demo đứng ngay trên nút âm thanh ở cùng góc */
+.lab-badge {
+  bottom: calc(clamp(28px, 3vw, 48px) + 56px + 12px);
+}
+
+@media (width <= 768px) {
+  .sound-toggle {
+    --sound-edge: 24px;
+    --sound-size: 48px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+
+  .lab-badge {
+    bottom: calc(24px + 48px + 12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sound-toggle .sound-toggle__bars i {
+    animation: none !important;
+  }
+
+  .sound-toggle[data-state="on"] .sound-toggle__bars i {
+    transform: scaleY(0.7);
+  }
+}

@@ -1,0 +1,17 @@
+﻿import fs from "node:fs/promises";
+import { launch, newTarget, Session } from "./cdp.mjs";
+const port = 9771;
+const b = await launch({ port });
+const t = await newTarget(port, "about:blank");
+const s = await new Session(t.webSocketDebuggerUrl).open();
+await s.send("Page.enable"); await s.send("Runtime.enable");
+await s.send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+await s.send("Page.navigate", { url: "http://127.0.0.1:5188/" });
+await new Promise(r => setTimeout(r, 1900));
+let d = await s.send("Page.captureScreenshot", { format: "png" });
+await fs.writeFile("build-src/shot-intro.svg.png", Buffer.from(d.data, "base64"));
+await new Promise(r => setTimeout(r, 7000));
+d = await s.send("Page.captureScreenshot", { format: "png" });
+await fs.writeFile("build-src/shot-hero-new.png", Buffer.from(d.data, "base64"));
+console.log("ok");
+s.close(); b.close(); process.exit(0);

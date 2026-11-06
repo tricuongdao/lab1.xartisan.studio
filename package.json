@@ -1,0 +1,22 @@
+{
+  "name": "xartisan-studio-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Xartisan Studio website — a single-page, WebGL-led static site.",
+  "type": "module",
+  "author": "Xartisan Studio",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tricuongdao/lab1.xartisan-studio.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "dev": "node tools/serve.mjs --dev",
+    "build": "node tools/build.mjs",
+    "verify": "node tools/verify.mjs"
+  }
+}

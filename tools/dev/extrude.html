@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script type="importmap">
+      { "imports": { "three": "https://unpkg.com/three@0.169.0/build/three.module.js" } }
+    </script>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from "three";
+      import { GLTFExporter } from "https://unpkg.com/three@0.169.0/examples/jsm/exporters/GLTFExporter.js";
+      import { toCreasedNormals } from "https://unpkg.com/three@0.169.0/examples/jsm/utils/BufferGeometryUtils.js";
+
+      // Extrude a traced 2D silhouette into a GLB matching the hero logo's scale.
+      window.__build = async ({ polygons, width, targetWidth, depth, bevel }) => {
+        const s = targetWidth / width;
+        const shape = new THREE.Shape(polygons[0].map(([x, y]) => new THREE.Vector2(x, -y)));
+
+        const geom = new THREE.ExtrudeGeometry(shape, {
+          depth: depth / s,
+          bevelEnabled: true,
+          bevelThickness: bevel / s,
+          bevelSize: (bevel * 0.85) / s,
+          bevelSegments: 3,
+          curveSegments: 1,
+          steps: 1,
+        });
+        geom.scale(s, s, s);
+        geom.center();
+        const smooth = toCreasedNormals(geom, THREE.MathUtils.degToRad(35));
+
+        const material = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.4 });
+        const scene = new THREE.Scene();
+        scene.add(new THREE.Mesh(smooth, material));
+
+        const buffer = await new GLTFExporter().parseAsync(scene, { binary: true });
+        const bytes = new Uint8Array(buffer);
+        let binary = "";
+        const CHUNK = 0x8000;
+        for (let i = 0; i < bytes.length; i += CHUNK) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+        }
+        const box = new THREE.Box3().setFromObject(scene);
+        return {
+          base64: btoa(binary),
+          vertices: smooth.getAttribute("position").count,
+          bbox: [box.min.toArray(), box.max.toArray()],
+        };
+      };
+
+      window.__ready = true;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/assets/home-xt2.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      .card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        background: #0d0a09;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        padding: 0 84px;
+        box-sizing: border-box;
+        font-family: CabinetGrotesk-Regular, Arial, sans-serif;
+      }
+      .glow {
+        position: absolute;
+        width: 900px;
+        height: 900px;
+        right: -260px;
+        top: -260px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 42% 42%, #ff4a22 0%, #c31f74 30%, rgba(150, 30, 120, 0.45) 58%, rgba(13, 10, 9, 0) 100%);
+        
+        opacity: 0.85;
+      }
+      .glow2 {
+        position: absolute;
+        width: 620px;
+        height: 620px;
+        left: -220px;
+        bottom: -320px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 110, 60, 0.55) 0%, rgba(13, 10, 9, 0) 68%);
+      }
+      .content {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 56px;
+      }
+      .mark {
+        width: 196px;
+        height: 172px;
+        background: #f8f1e7;
+        -webkit-mask-image: url(/brand/logo-xartisan.svg);
+        mask-image: url(/brand/logo-xartisan.svg);
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-position: center;
+        mask-position: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 68px;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: #f8f1e7;
+      }
+      p {
+        margin: 18px 0 0;
+        font-family: Satoshi, Arial, sans-serif;
+        font-size: 21px;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(248, 241, 231, 0.72);
+      }
+      .domain {
+        position: absolute;
+        left: 84px;
+        bottom: 52px;
+        font-family: Satoshi, Arial, sans-serif;
+        font-size: 19px;
+        letter-spacing: 0.16em;
+        color: rgba(248, 241, 231, 0.55);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="glow"></div>
+      <div class="glow2"></div>
+      <div class="content">
+        <div class="mark"></div>
+        <div>
+          <h1>Xartisan Studio</h1>
+          <p>Digital Solutions · Web Studio</p>
+        </div>
+      </div>
+      <div class="domain">xartisan.studio</div>
+    </div>
+  </body>
+</html>
+
