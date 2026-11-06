@@ -1,4 +1,4 @@
-// Minimal static server for the clone — the site must be served over HTTP because
+// Minimal static server for the site — it must be served over HTTP because
 // the page uses ES modules and WebGL textures (file:// is blocked by CORS).
 //
 //   node tools/serve.mjs            → http://localhost:5177
@@ -64,7 +64,7 @@ http
     });
   })
   .listen(PORT, () => {
-    console.log(`Xartisan Studio clone → http://localhost:${PORT}`);
+    console.log(`Xartisan Studio site → http://localhost:${PORT}`);
     if (DEV) console.log(`dev pages            → http://localhost:${PORT}/_dev/og.html`);
   });
 

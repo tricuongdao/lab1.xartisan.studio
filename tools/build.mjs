@@ -1,7 +1,7 @@
-// Builds the Xartisan Studio site from the mirrored XimiTech demo.
+// Builds the Xartisan Studio site from the base snapshot and content overrides.
 //
-// Inputs : build-src/index.original.html, build-src/mirror/** (pristine mirror)
-// Outputs: site/** (rebranded, English-only build)
+// Inputs : build-src/index.original.html, build-src/mirror/** (base snapshot)
+// Outputs: site/** (English-only build)
 //
 // Run: node tools/build.mjs
 import fs from "node:fs";
@@ -13,15 +13,15 @@ const warn = [];
 const note = (msg) => report.push(msg);
 
 /* ------------------------------------------------------------------ */
-/* 0. restore the pristine mirror so the build is repeatable           */
+/* 0. restore the base snapshot so the build is repeatable             */
 /* ------------------------------------------------------------------ */
 const pristine = path.join("build-src", "mirror");
 if (!fs.existsSync(pristine)) throw new Error("missing build-src/mirror snapshot");
 fs.rmSync("site", { recursive: true, force: true });
 fs.cpSync(pristine, "site", { recursive: true });
-note("restored pristine mirror → site/");
+note("restored base snapshot → site/");
 
-// generated brand assets (hero textures, og image, icons) override the mirror
+// generated brand assets (hero textures, og image, icons) override the base
 const generated = path.join("build-src", "generated");
 if (fs.existsSync(generated)) {
   fs.cpSync(generated, "site", { recursive: true, force: true });
